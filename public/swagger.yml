@@ -1,0 +1,295 @@
+openapi: 3.0.0
+info:
+  title: Remede Agency Api documentations
+  description: This documentation contains all endpoints present in the codebase and future endpoints for transaction
+  version: 1.0.0
+servers:
+  - url: http://localhost:3001/api/v1
+    description: local url
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  /user/signup:
+    post:
+      summary: Create user.
+      description: this route its for create user.
+      tags: 
+       - Signup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                firstname:
+                  type: string
+                lastname:
+                  type: string
+      responses:
+        '200':
+          description: user created
+        '400':
+          description: Email already exists
+  /user/login:
+    post:
+      summary: Login user.
+      description: This route is for user login.
+      tags:
+        - Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: User successfully logged in
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    default: tokenValue
+                  email:
+                    type: string
+                    default: user@user.fr
+        "400":
+          description: User not found!
+  /user/profile:
+    
+    put:
+      summary: Modify profile.
+      description: This route is for modifying a user's profile.
+      tags:
+       - Profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                firstname:
+                  type: string
+                lastname:
+                  type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successfully updated user profile data
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    default: user@user.fr
+                  firstname:
+                    type: string
+                    default: user
+                  lasName:
+                    type: string
+                    default: Name
+                  createdAt: 
+                    type: string
+                    default: 2023-08-18T10:52:25.514Z
+                  updatedAt: 
+                    type: string
+                    default: 2023-09-01T08:41:21.959Z
+                  id:
+                    type: string
+                    default: 00000OO000
+        '400':
+          description: User not found!
+    post:
+      summary: get profile.
+      description: This route is for get a user profile.
+      tags:
+       - Profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successfully got user profile data
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    default: user@user.fr
+                  firstname:
+                    type: string
+                    default: user
+                  lasName:
+                    type: string
+                    default: Name
+                  createdAt: 
+                    type: string
+                    default: 2023-08-18T10:52:25.514Z
+                  updatedAt: 
+                    type: string
+                    default: 2023-09-01T08:41:21.959Z
+                  id:
+                    type: string
+                    default: 00000OO000
+        "400":
+          description: User not found!
+  /transaction:
+    get:
+      summary: Get user transaction on the month or get one transaction.
+      description: This route is for get transaction of user on the month on for one transaction.
+      tags:
+        - Transaction
+      parameters:
+        - name: 'id'
+          in: query
+          schema:
+            type: string
+        - name: 'transactionId'
+          in: query
+          schema:
+            type: number
+          required: false    
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successfully got user transaction data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ArgentBankChecking:
+                      type: string
+                    date:
+                      type: string
+                    montant:
+                      type: number
+        "404":
+          description: user not found
+        "403":
+          description: forbidden
+    post:
+      summary: Create a new user transaction.
+      description: This route is for creating a new user transaction.
+      tags:
+        - Transaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                nameUserTransaction: 
+                  type: string
+                UserBank:
+                  type: string
+                montant:
+                  type: number
+      security:
+        - bearerAuth: []            
+      responses:
+        "201":
+          description: Successfully created a new user transaction
+        "406":
+          description: User don't have ressource 
+        "404":
+          description: user not found
+        "500":
+          description: internal error
+    put:
+      summary: Update user transaction data.
+      description: This route is for updating user transaction data.
+      tags:
+        - Transaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                transactionId:
+                  type: string
+                updatedAt:
+                  type: string
+                userHaveUpdated:
+                  type: string
+                montant:
+                  type: number
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successfully updated user transaction data
+        "400":
+          description: bad request
+        "404":
+          description: user or transaction not found
+        "403":
+          description: just admin can do this
+    delete:
+      summary: Delete user transaction data.
+      description: This route is for updating user transaction data.
+      tags:
+        - Transaction
+      parameters:
+        - name: 'userId'
+          in: query
+          schema:
+            type: string
+        - name: 'transactionId'
+          in: query
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successfully deletes user transaction data
+        "400":
+          description: bad request
+        "404":
+          description: user or transaction not found
+        "403":
+          description: just admin can do this
