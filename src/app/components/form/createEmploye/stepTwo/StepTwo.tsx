@@ -3,7 +3,7 @@ import Title from "../../titleForm/TitleForm"
 import { formValidator } from "../../../../utils/formValidator"
 import DropDown from "../../../dropdown/DropDown"
 import dropDownData from "../../../../data/dropDownData.json"
-import { dropDownDataModels } from "../../../../models/dropDownDataModels"
+
 interface formData {
     [key: string]: string;
 }
@@ -12,8 +12,12 @@ interface formData {
 const StepTwo: FC = () => {
     const form = useRef<HTMLFormElement>(null)
     const [invalidInput, setInvalidInput] = useState<string[]>([])
-    // const [dropDownChoice, setDropDownChoice] = useState<string[]>([])
+    const [openDropDown, setOpenDropDown] = useState('');
 
+    const handleDropDownToggle = (dropDownName: string) => {
+        setOpenDropDown(openDropDown === dropDownName ? '' : dropDownName);
+      };
+    
     function handleSubmit(event: any): void {
         event.preventDefault()
 
@@ -55,13 +59,23 @@ const StepTwo: FC = () => {
                 </div>
 
                 <label htmlFor="state">State : </label>
-                <DropDown options={ dropDownData.state } dropDownName='state' />
+                <DropDown 
+                  options={ dropDownData.state } 
+                  dropDownName='state' 
+                  isOpen={openDropDown === "state"} 
+                  onToggle={() => handleDropDownToggle("state")} 
+                />
 
                 <label htmlFor="zipcode">Zipcode : </label>
                 <input type="number" id="zipcode" />
 
                 <label htmlFor="zipcode">Department : </label>
-                <DropDown options={ dropDownData.department } dropDownName='department'/> 
+                <DropDown 
+                  options={ dropDownData.department }
+                  dropDownName='department'  
+                  isOpen={openDropDown === "department"} 
+                  onToggle={() => handleDropDownToggle("department")}
+                /> 
 
                 <button className="container__step__form--button" type="submit"> send </button>
             </form>

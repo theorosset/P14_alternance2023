@@ -1,5 +1,3 @@
-
-
 export interface EmployeState {
     email: string,
     token: string,
