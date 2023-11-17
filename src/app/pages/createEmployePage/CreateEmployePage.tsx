@@ -9,7 +9,7 @@ const CreateEmployePage: FC = () => {
     function test() {
         setIsStepOne(false)
     }
-    console.log(isStepOne)
+   
     return (
         <div className="container__home">
             {isStepOne &&

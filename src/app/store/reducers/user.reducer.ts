@@ -34,6 +34,10 @@ const initialState: EmployeState = {
 
 export const employeReducer = (state = initialState, action: any) => {
   switch (action.type) {
+    case "department":
+     return  {...state, ...action.payload}
+    case "state":
+     return {...state, adress: {...state.adress, ...action.payload}}
     default:
       return state;
   }

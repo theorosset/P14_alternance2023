@@ -1,12 +1,11 @@
 import { FC, useRef } from "react"
 import Title from "../../titleForm/TitleForm"
 
-
 interface Props {
     isValidate: Function
 }
 
-const StepOne: FC<Props> = ({isValidate}) => {
+const StepOne: FC<Props> = ({ isValidate }) => {
     const form = useRef<HTMLFormElement>(null)
 
     function handleSubmit(event: any): void {
