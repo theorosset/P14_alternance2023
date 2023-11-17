@@ -40,7 +40,10 @@ const DropDown: FC<Props> = ({ options, dropDownName, onToggle, isOpen } ) => {
             </div>
             <div className={`dropDown__container__options ${isOpen ? 'supperposition' : 'displayNone'}`}>
                 <ul className="dropDown__container__options--list">
-                    { options.map(({id, name}) => <li onClick={handlerSelectDropDown} key={ id }>{ name }</li>) }
+                    { options.map(({id, name}) => <li 
+                    onClick={handlerSelectDropDown} 
+                    key={ id }
+                    >{ name }</li>) }
                 </ul>
             </div>
         </div>

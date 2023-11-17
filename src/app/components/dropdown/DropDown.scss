@@ -24,11 +24,13 @@
     border: 1px solid rgb(113, 113, 113);
     width: 99.4%;
     border-radius: 0px 0px 5px 5px;
+    overflow-y: auto; 
+    max-height: 250px;
 
     &--list {
       padding: 0;
       margin: 0;
-      
+     
       & > li {
         transition-duration: 0.6s;
         @include flexJustifyCenterAlignCenter;

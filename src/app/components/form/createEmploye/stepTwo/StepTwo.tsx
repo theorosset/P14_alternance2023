@@ -27,13 +27,11 @@ const StepTwo: FC = () => {
             const formValue = current as unknown as HTMLInputElement[]
             
             const employeData: formData = {
-                street: formValue[0].value,
-                city: formValue[1].value,
-                state: formValue[2].value,
-                zipcode: formValue[3].value,
-                department: formValue[4].value
+                street: formValue[0].value ?? '',
+                city: formValue[1].value ?? '',
+                zipcode: formValue[2].value ?? '', 
             }
-          
+
             const checkInputValidation = formValidator(employeData)
             
             if(checkInputValidation.length) {
