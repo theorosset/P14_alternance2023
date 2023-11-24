@@ -1,18 +1,17 @@
 import { FC, useRef, useState } from "react"
 import Title from "../../titleForm/TitleForm"
 import { formValidator } from "../../../../utils/formValidator"
+import { formData } from "../../../../models/formDataModels"
 import DropDown from "../../../dropdown/DropDown"
 import dropDownData from "../../../../data/dropDownData.json"
 
-interface formData {
-    [key: string]: string;
-}
 
 
 const StepTwo: FC = () => {
     const form = useRef<HTMLFormElement>(null)
     const [invalidInput, setInvalidInput] = useState<string[]>([])
     const [openDropDown, setOpenDropDown] = useState('');
+    const FieldsCityStreet = ['street', 'city'];
 
     const handleDropDownToggle = (dropDownName: string) => {
         setOpenDropDown(openDropDown === dropDownName ? '' : dropDownName);
@@ -33,7 +32,7 @@ const StepTwo: FC = () => {
             }
 
             const checkInputValidation = formValidator(employeData)
-            
+
             if(checkInputValidation.length) {
                return setInvalidInput(checkInputValidation)
             }
@@ -55,6 +54,14 @@ const StepTwo: FC = () => {
                         <input type="text" id="city" />
                     </div>
                 </div>
+                    {  FieldsCityStreet.some(field => invalidInput.includes(field)) &&
+                     
+                     <p>
+                        Please enter a valid { invalidInput.includes('street') ? 'street' : '' }
+                        { FieldsCityStreet.every(field => invalidInput.includes(field)) ? ' and ' : ''}
+                        { invalidInput.includes('city') ? 'city' : '' }
+                     </p>
+                    }
 
                 <label htmlFor="state">State : </label>
                 <DropDown 
@@ -66,6 +73,9 @@ const StepTwo: FC = () => {
 
                 <label htmlFor="zipcode">Zipcode : </label>
                 <input type="number" id="zipcode" />
+                {  invalidInput.includes('zipcode') &&
+                    <p>Please enter a valid zipcode.</p>
+                }
 
                 <label htmlFor="zipcode">Department : </label>
                 <DropDown 
