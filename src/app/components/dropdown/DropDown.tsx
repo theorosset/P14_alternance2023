@@ -10,9 +10,10 @@ interface Props {
     dropDownName: string
     onToggle: () => void;
     isOpen: boolean;
+    id?: string
 }
 
-const DropDown: FC<Props> = ({ options, dropDownName, onToggle, isOpen } ) => {
+const DropDown: FC<Props> = ({ options, dropDownName, onToggle, isOpen, id } ) => {
     const [dropdownValue, setDropDownValue] = useState('')
     const dispatch = useDispatch()
 
@@ -33,7 +34,7 @@ const DropDown: FC<Props> = ({ options, dropDownName, onToggle, isOpen } ) => {
     return (
         <div className="dropDown__container">
             <div className={`dropDown__container__input ${isOpen ? 'borderBottomNone' : ''}`} onClick={onToggle}>
-                <div className="dropDown__container__input--value">
+                <div className="dropDown__container__input--value" id={id}>
                 <p>{dropdownValue}</p>
                 <i className={`fas fa-chevron-${isOpen ? 'down' : 'up'}`}></i>
                 </div>

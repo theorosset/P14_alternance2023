@@ -17,6 +17,21 @@ const StepTwo: FC = () => {
         setOpenDropDown(openDropDown === dropDownName ? '' : dropDownName);
       };
     
+    //check value of dropDown
+    function dropDownValidator() {
+      const dropdownHaveError: string[] = []
+      const dropDowns = document.querySelectorAll('.dropDown__container__input--value')
+
+      dropDowns.forEach((dropdown) => {
+        const dropdownValue = dropdown.firstChild as HTMLElement
+
+        if(!dropdownValue.innerText) {
+            dropdownHaveError.push(dropdown.id)
+        }
+      })
+      return dropdownHaveError
+    }
+    
     function handleSubmit(event: any): void {
         event.preventDefault()
 
@@ -32,8 +47,14 @@ const StepTwo: FC = () => {
             }
 
             const checkInputValidation = formValidator(employeData)
-
+            const checkDropDownValue = dropDownValidator()
             if(checkInputValidation.length) {
+                console.log(checkDropDownValue)
+                if(checkDropDownValue.length) {
+                    console.log('oui')
+                    checkInputValidation.push(...checkDropDownValue)
+                }
+                console.log(checkInputValidation)
                return setInvalidInput(checkInputValidation)
             }
         }
@@ -64,12 +85,16 @@ const StepTwo: FC = () => {
                     }
 
                 <label htmlFor="state">State : </label>
-                <DropDown 
+                <DropDown
                   options={ dropDownData.state } 
                   dropDownName='state' 
                   isOpen={openDropDown === "state"} 
-                  onToggle={() => handleDropDownToggle("state")} 
+                  onToggle={() => handleDropDownToggle("state")}
+                  id="1"
                 />
+                { invalidInput.includes('1') &&
+                    <p>Please select one in list.</p>
+                }
 
                 <label htmlFor="zipcode">Zipcode : </label>
                 <input type="number" id="zipcode" />
@@ -83,7 +108,11 @@ const StepTwo: FC = () => {
                   dropDownName='department'  
                   isOpen={openDropDown === "department"} 
                   onToggle={() => handleDropDownToggle("department")}
+                  id="2"
                 /> 
+                { invalidInput.includes('2') &&
+                    <p>Please select one in list.</p>
+                }
 
                 <button className="container__step__form--button" type="submit"> send </button>
             </form>
