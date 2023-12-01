@@ -4,10 +4,14 @@ import { formValidator } from "../../../../utils/formValidator"
 import { formData } from "../../../../models/formDataModels"
 import DropDown from "../../../dropdown/DropDown"
 import dropDownData from "../../../../data/dropDownData.json"
-
+import { useDispatch, useSelector } from "react-redux"
+import { setProfileEmploye, setNewEmploye } from "../../../../store/actions/user.action"
+import { RootState } from "../../../../store/reducers"
 
 
 const StepTwo: FC = () => {
+    const user = useSelector((state: RootState) => state.employeReducer);
+    const dispatch = useDispatch()
     const form = useRef<HTMLFormElement>(null)
     const [invalidInput, setInvalidInput] = useState<string[]>([])
     const [openDropDown, setOpenDropDown] = useState('');
@@ -16,7 +20,6 @@ const StepTwo: FC = () => {
     const handleDropDownToggle = (dropDownName: string) => {
         setOpenDropDown(openDropDown === dropDownName ? '' : dropDownName);
       };
-    
     //check value of dropDown
     function dropDownValidator() {
       const dropdownHaveError: string[] = []
@@ -31,7 +34,7 @@ const StepTwo: FC = () => {
       })
       return dropdownHaveError
     }
-    
+   
     function handleSubmit(event: any): void {
         event.preventDefault()
 
@@ -48,15 +51,14 @@ const StepTwo: FC = () => {
 
             const checkInputValidation = formValidator(employeData)
             const checkDropDownValue = dropDownValidator()
-            if(checkInputValidation.length) {
-                console.log(checkDropDownValue)
+            if(checkInputValidation.length || checkDropDownValue.length) {
                 if(checkDropDownValue.length) {
-                    console.log('oui')
                     checkInputValidation.push(...checkDropDownValue)
                 }
-                console.log(checkInputValidation)
                return setInvalidInput(checkInputValidation)
             }
+            dispatch(setProfileEmploye(employeData) as any)
+            dispatch(setNewEmploye() as any)
         }
     }
 

@@ -6,14 +6,14 @@ import "./CreateEmployePage.scss"
 const CreateEmployePage: FC = () => {
     const [isStepOne, setIsStepOne] = useState(true)
 
-    function test() {
+    function valideStepOne() {
         setIsStepOne(false)
     }
    
     return (
         <div className="container__home">
             {isStepOne &&
-            <StepOne isValidate={test} />
+            <StepOne isValidate={valideStepOne} />
             }
             {isStepOne === false &&
                 <StepTwo />

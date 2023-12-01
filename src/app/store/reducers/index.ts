@@ -3,7 +3,7 @@ import { employeReducer } from "./user.reducer";
 import { EmployeState } from "./user.reducer"
 
 export interface RootState {
-    userReducer: EmployeState;
+    employeReducer: EmployeState;
 }
 
 

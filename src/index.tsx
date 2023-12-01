@@ -9,17 +9,33 @@ import './index.css';
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from './app/store/reducers'
+import { PersistGate } from 'redux-persist/integration/react';
+import storage from 'redux-persist/lib/storage'; 
+import { persistReducer, persistStore } from 'redux-persist';
 
+const persistConfig = {
+  key: 'root',
+  storage: storage,
+};
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+  getDefaultMiddleware({
+    serializableCheck: false,
+  }),
   devTools: true,
 })
+
+const persistor = persistStore(store);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <PersistGate persistor={persistor} >
+        <RouterProvider router={router} />
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 ) ;

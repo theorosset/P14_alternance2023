@@ -2,12 +2,14 @@ import { FC, useRef, useState } from "react"
 import { formValidator } from "../../../../utils/formValidator"
 import { formData } from "../../../../models/formDataModels"
 import Title from "../../titleForm/TitleForm"
-
+import { useDispatch } from "react-redux"
+import { setProfileEmploye } from "../../../../store/actions/user.action"
 interface Props {
     isValidate: Function
 }
 
 const StepOne: FC<Props> = ({ isValidate }) => {
+    const dispatch = useDispatch()
     const form = useRef<HTMLFormElement>(null)
     const [invalidInput, setInvalidInput] = useState<string[]>([])
     
@@ -30,11 +32,11 @@ const StepOne: FC<Props> = ({ isValidate }) => {
             if(checkInputValidation.length) {
                 return setInvalidInput(checkInputValidation)
              }
+             isValidate()
+             dispatch(setProfileEmploye(employeData) as any)
         }
 
-        isValidate()
     }
-    
     return (
         <div className="container__step">
             <Title text="Step 1/2" />
