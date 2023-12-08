@@ -18,8 +18,8 @@ export interface employeInformationModel {
     departmentWork: string
 }
 export interface employeAdressModel {
-        city: string,
-        street: string,
-        state: string,
-        zipcode: number | null
+    city: string,
+    street: string,
+    state: string,
+    zipcode: number | null
 }

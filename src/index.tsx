@@ -12,7 +12,6 @@ import rootReducer from './app/store/reducers'
 import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/lib/storage'; 
 import { persistReducer, persistStore } from 'redux-persist';
-
 const persistConfig = {
   key: 'root',
   storage: storage,
@@ -29,6 +28,12 @@ const store = configureStore({
 })
 
 const persistor = persistStore(store);
+
+//if you want purge store of redux use next line 
+
+// persistor.flush().then(() => {
+//   return persistor.purge();
+// });
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

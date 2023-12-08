@@ -2,12 +2,12 @@ import { FC, useRef, useState } from "react"
 import Title from "../../titleForm/TitleForm"
 import { formValidator } from "../../../../utils/formValidator"
 import { formData } from "../../../../models/formDataModels"
-import DropDown from "../../../dropdown/DropDown"
 import dropDownData from "../../../../data/dropDownData.json"
+import { setDepartmentEmploye, setStateEmploye } from "../../../../store/actions/user.action"
 import { useDispatch, useSelector } from "react-redux"
 import { setProfileEmploye, setNewEmploye } from "../../../../store/actions/user.action"
 import { RootState } from "../../../../store/reducers"
-
+import { DropDown } from "p14-dropdown-lib-alternance"
 
 const StepTwo: FC = () => {
     const user = useSelector((state: RootState) => state.employeReducer);
@@ -16,12 +16,25 @@ const StepTwo: FC = () => {
     const [invalidInput, setInvalidInput] = useState<string[]>([])
     const [openDropDown, setOpenDropDown] = useState('');
     const FieldsCityStreet = ['street', 'city'];
-
+   
     const handleDropDownToggle = (dropDownName: string) => {
         setOpenDropDown(openDropDown === dropDownName ? '' : dropDownName);
       };
+
+      const handlerSelectDropDown = async (dropdownValue: any) => {
+        const { id, value } = dropdownValue
+        console.log(dropdownValue)
+        if (id === "2" && value) {
+            await dispatch(setDepartmentEmploye(value) as any);
+        }
+        if (id === "1" && value) {
+            await dispatch(setStateEmploye(value) as any);
+        }
+    };
+
     //check value of dropDown
     function dropDownValidator() {
+
       const dropdownHaveError: string[] = []
       const dropDowns = document.querySelectorAll('.dropDown__container__input--value')
 
@@ -89,9 +102,7 @@ const StepTwo: FC = () => {
                 <label htmlFor="state">State : </label>
                 <DropDown
                   options={ dropDownData.state } 
-                  dropDownName='state' 
-                  isOpen={openDropDown === "state"} 
-                  onToggle={() => handleDropDownToggle("state")}
+                  SelectedValue={(value: any) => handlerSelectDropDown(value)}
                   id="1"
                 />
                 { invalidInput.includes('1') &&
@@ -107,9 +118,7 @@ const StepTwo: FC = () => {
                 <label htmlFor="zipcode">Department : </label>
                 <DropDown 
                   options={ dropDownData.department }
-                  dropDownName='department'  
-                  isOpen={openDropDown === "department"} 
-                  onToggle={() => handleDropDownToggle("department")}
+                  SelectedValue={(value: any) => handlerSelectDropDown(value)}
                   id="2"
                 /> 
                 { invalidInput.includes('2') &&
