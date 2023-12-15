@@ -3,17 +3,10 @@ import Title from "../../titleForm/TitleForm";
 import { formValidator } from "../../../../utils/formValidator";
 import { formData } from "../../../../models/formDataModels";
 import dropDownData from "../../../../data/dropDownData.json";
-import {
-  setDepartmentEmploye,
-  setStateEmploye,
-} from "../../../../store/actions/user.action";
+import {setDepartmentEmploye, setStateEmploye} from "../../../../store/actions/user.action";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
-import {
-  setProfileEmploye,
-  setNewEmploye,
-} from "../../../../store/actions/user.action";
+import { setProfileEmploye, setNewEmploye } from "../../../../store/actions/user.action";
 import { DropDown } from "p14-dropdown-lib-alternance";
 
 const StepTwo: FC = () => {
@@ -26,7 +19,7 @@ const StepTwo: FC = () => {
 
   const handlerSelectDropDown = async (dropdownValue: any) => {
     const { id, value } = dropdownValue;
-    console.log(dropdownValue);
+
     if (id === "2" && value) {
       await dispatch(setDepartmentEmploye(value) as any);
     }
@@ -59,7 +52,7 @@ const StepTwo: FC = () => {
 
     if (current) {
       const formValue = current as unknown as HTMLInputElement[];
-
+      
       const employeData: formData = {
         street: formValue[0].value ?? "",
         city: formValue[1].value ?? "",
@@ -68,15 +61,17 @@ const StepTwo: FC = () => {
 
       const checkInputValidation = formValidator(employeData);
       const checkDropDownValue = dropDownValidator();
+
       if (checkInputValidation.length || checkDropDownValue.length) {
         if (checkDropDownValue.length) {
           checkInputValidation.push(...checkDropDownValue);
         }
         return setInvalidInput(checkInputValidation);
       }
+      
       dispatch(setProfileEmploye(employeData) as any);
       dispatch(setNewEmploye() as any);
-      navigate("/employe-listing");
+      // navigate("/employe-listing");
     }
   }
 
@@ -117,9 +112,7 @@ const StepTwo: FC = () => {
 
         <label htmlFor="zipcode">Zipcode : </label>
         <input type="number" id="zipcode" />
-        {invalidInput.includes("zipcode") && (
-          <p>Please enter a valid zipcode.</p>
-        )}
+        {invalidInput.includes("zipcode") && (<p>Please enter a valid zipcode.</p>)}
 
         <label htmlFor="zipcode">Department : </label>
 

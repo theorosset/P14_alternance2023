@@ -1,14 +1,12 @@
 import { Dispatch } from 'redux'
 import { RootState } from '../reducers'
 
-//Multi actions for set profile 
-export const SET_PROFILE_ADRESS = 'SET_PROFILE_ADRESS'
+
 export const SET_PROFILE_INFORMATION = 'SET_PROFILE_INFORMATION'
 
 export const setStateEmploye = (state: string) => {
   return async (dispatch: Dispatch) => {
-    dispatch({ type: SET_PROFILE_ADRESS, payload: { state } })
-    
+    dispatch({ type: SET_PROFILE_INFORMATION, payload: { state } })
   }
 }
 
@@ -20,12 +18,7 @@ export const setDepartmentEmploye = (department: string) => {
 
 export const setProfileEmploye = (info: any) => {
   return async (dispatch: Dispatch) => {
-    if(info.firstName) {
       dispatch({ type: SET_PROFILE_INFORMATION, payload: info})
-    }
-    if(info.city) {
-      dispatch({ type: SET_PROFILE_ADRESS, payload: info})
-    }
   }
 }
 

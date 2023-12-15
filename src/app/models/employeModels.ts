@@ -2,12 +2,10 @@ export type employeModel = {
     firstName: string,
     lastName: string,
     birthday: string,
-    adress: {
-      city: string,
-      street: string,
-      state: string,
-      zipcode: number | null
-    },
+    city: string,
+    street: string,
+    state: string,
+    zipcode: number | null
     departmentWork: string
 }
 
