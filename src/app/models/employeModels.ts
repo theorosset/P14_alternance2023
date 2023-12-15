@@ -1,4 +1,4 @@
-export interface employeModel {
+export type employeModel = {
     firstName: string,
     lastName: string,
     birthday: string,

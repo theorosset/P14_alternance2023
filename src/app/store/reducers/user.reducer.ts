@@ -1,7 +1,7 @@
 import { employeModel } from "../../models/employeModels"
 export interface EmployeState {
   employe: employeModel
-  allEmploye: object[]
+  allEmploye: employeModel[]
 }
 
 

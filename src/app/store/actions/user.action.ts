@@ -34,6 +34,6 @@ export const SET_NEW_EMPLOYE = 'SET_NEW_EMPLOYE'
 export const setNewEmploye = () => {
   return async (dispatch: Dispatch, getState: () => RootState) => {
     const { ...keyUse } = getState().employeReducer.employe;
-      dispatch({ type: 'SET_NEW_EMPLOYE', payload: { employe: keyUse } })
+      dispatch({ type: 'SET_NEW_EMPLOYE', payload: { ...keyUse } })
   }
 }
