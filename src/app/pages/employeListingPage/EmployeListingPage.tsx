@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import "./EmployeListingPage.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/reducers";
@@ -11,15 +11,42 @@ import {
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
+  FilterFn,
+  getFilteredRowModel
 } from "@tanstack/react-table";
 import RowTable from "../../components/table/rowTable/RowTable";
+import "./EmployeListingPage.scss"
+import { RankingInfo, rankItem } from "@tanstack/match-sorter-utils";
+import SearchTable from "../../components/table/searchTable/searchTable";
+
+
+declare module '@tanstack/table-core' {
+  interface FilterFns {
+    fuzzy: FilterFn<unknown>
+  }
+  interface FilterMeta {
+    itemRank: RankingInfo
+  }
+}
 
 const EmployeListingPage: FC = () => {
-  const user = useSelector(
-    (state: RootState) => state.employeReducer.allEmploye
-  );
+  const user = useSelector((state: RootState) => state.employeReducer.allEmploye);
   const [data, setData] = useState(user);
+  const [globalFilter, setGlobalFilter] = useState('')
   const columnHelper = createColumnHelper<employeModel>();
+
+  const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
+    // Rank the item
+    const itemRank = rankItem(row.getValue(columnId), value)
+    
+    // Store the itemRank info
+    addMeta({
+      itemRank,
+    })
+  
+    // Return if the item should be filtered in/out
+    return itemRank.passed
+  }
 
   const columns = (): ColumnDef<employeModel,string>[] => {
     const columns: ColumnDef<employeModel,string>[] = [] 
@@ -51,16 +78,33 @@ const EmployeListingPage: FC = () => {
   const table = useReactTable({
     data,
     columns: columns(),
+    filterFns: {
+      fuzzy: fuzzyFilter,
+    },
+    state: {
+      globalFilter,
+    },
+    getFilteredRowModel: getFilteredRowModel(),
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: fuzzyFilter,
   });
+
   return (
-    <div className="container__home">
-      <table>
-        <Thead headerGroups={table.getHeaderGroups()}/>
-        <RowTable rows={table.getRowModel().rows}/>
+    <div className="container__listing">
+        <h1>Current Employees</h1>
+        <SearchTable 
+          value={globalFilter ?? ''} 
+          inputEvent={(value) => setGlobalFilter(value)}
+        />
+      <div className="container__listing__table">
+        <table>
+          <Thead headerGroups={table.getHeaderGroups()}/>
+          <RowTable rows={table.getRowModel().rows}/>
+        </table>
         <Pagination table={table} />
-      </table>
+      </div>
     </div>
   );
 };

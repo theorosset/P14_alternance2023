@@ -71,7 +71,7 @@ const StepTwo: FC = () => {
       
       dispatch(setProfileEmploye(employeData) as any);
       dispatch(setNewEmploye() as any);
-      // navigate("/employe-listing");
+      navigate("/employe-listing");
     }
   }
 
