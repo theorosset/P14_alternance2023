@@ -3,7 +3,7 @@ import Title from "../../titleForm/TitleForm";
 import { formValidator } from "../../../../utils/formValidator";
 import { formData } from "../../../../models/formDataModels";
 import dropDownData from "../../../../data/dropDownData.json";
-import {setDepartmentEmploye, setStateEmploye} from "../../../../store/actions/user.action";
+import { setDepartmentEmploye, setStateEmploye } from "../../../../store/actions/user.action";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setProfileEmploye, setNewEmploye } from "../../../../store/actions/user.action";

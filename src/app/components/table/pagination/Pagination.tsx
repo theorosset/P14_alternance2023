@@ -1,7 +1,7 @@
 import { Table } from "@tanstack/react-table";
 import { FC } from "react";
 import { employeModel } from "../../../models/employeModels";
-
+import './Pagintation.scss'
 
 interface Props {
    table: Table<employeModel>
@@ -9,7 +9,7 @@ interface Props {
  
 const Pagination: FC<Props> = ({ table }) => {
     return (
-        <div>
+        <div className="container__pagination">
             <select
                 value={table.getState().pagination.pageSize}
                 onChange={e => {
@@ -23,22 +23,18 @@ const Pagination: FC<Props> = ({ table }) => {
                 ))}
             </select>
             <button
-            className="border rounded p-1"
+            className="container__pagination--leftBtn"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
             >
                 {'<'}
             </button>
             <button
-            className="border rounded p-1"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
             >
                 {'>'}
             </button>
-          
-            <div>{table.getRowModel().rows.length} Rows</div>
-            <pre>{JSON.stringify(table.getState().pagination, null, 2)}</pre>
         </div>
     );
 }

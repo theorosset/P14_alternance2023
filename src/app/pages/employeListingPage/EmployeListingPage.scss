@@ -5,4 +5,15 @@
     min-height: 100vh;
     @include flexJustifyCenterAlignCenter;
     flex-direction: column;
+
+    &__table {
+        display: flex;
+        flex-direction: column;
+        
+
+        &--search {
+            display: flex;
+            justify-content: end;
+        }
+    }
 }

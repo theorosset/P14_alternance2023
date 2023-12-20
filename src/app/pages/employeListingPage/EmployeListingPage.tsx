@@ -17,7 +17,7 @@ import {
 import RowTable from "../../components/table/rowTable/RowTable";
 import "./EmployeListingPage.scss"
 import { RankingInfo, rankItem } from "@tanstack/match-sorter-utils";
-import SearchTable from "../../components/table/searchTable/searchTable";
+import SearchTable from "../../components/table/searchTable/SearchTable";
 
 
 declare module '@tanstack/table-core' {
@@ -94,11 +94,13 @@ const EmployeListingPage: FC = () => {
   return (
     <div className="container__listing">
         <h1>Current Employees</h1>
-        <SearchTable 
-          value={globalFilter ?? ''} 
-          inputEvent={(value) => setGlobalFilter(value)}
-        />
       <div className="container__listing__table">
+        <div className="container__listing__table--search">
+          <SearchTable 
+            value={globalFilter ?? ''} 
+            inputEvent={(value) => setGlobalFilter(value)}
+          />
+        </div>
         <table>
           <Thead headerGroups={table.getHeaderGroups()}/>
           <RowTable rows={table.getRowModel().rows}/>
