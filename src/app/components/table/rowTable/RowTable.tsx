@@ -1,6 +1,5 @@
 import { Row, flexRender } from "@tanstack/react-table";
 import { employeModel } from "../../../models/employeModels";
-import { FC } from "react";
 
 interface Props {
     rows: Row<employeModel>[]

@@ -1,24 +1,33 @@
-import { HeaderGroup, flexRender } from "@tanstack/react-table";
-import { employeModel } from "../../../models/employeModels";
+import { Table, flexRender } from "@tanstack/react-table";
 import { FC } from "react";
 import "./Thead.scss"
 
 interface Props {
-    headerGroups: HeaderGroup<employeModel>[]
+    table: Table<any>
 }
- 
-const Thead: FC<Props> = ({headerGroups}) => {
+const Thead: FC<Props> = ({table}) => {
+
     return ( 
         <thead>
-          {headerGroups.map((headerGroup) => (
+          {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id}>{header.isPlaceholder 
-                    ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())}
+            {headerGroup.headers.map(header => {
+              return (
+                <th key={header.id} colSpan={header.colSpan}> 
+                  <div  className='cursor-pointer' onClick={header.column.getToggleSortingHandler()}>
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                    {{
+                      asc: ' 🔼',
+                      desc: ' 🔽',
+                    }[header.column.getIsSorted() as string] ?? null}
+                  </div>
                 </th>
-              ))}
-            </tr>
+              )
+            })}
+          </tr>
           ))}
         </thead>
      );

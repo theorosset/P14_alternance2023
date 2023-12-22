@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import "./EmployeListingPage.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/reducers";
@@ -12,7 +12,8 @@ import {
   getPaginationRowModel,
   useReactTable,
   FilterFn,
-  getFilteredRowModel
+  getFilteredRowModel,
+  getSortedRowModel
 } from "@tanstack/react-table";
 import RowTable from "../../components/table/rowTable/RowTable";
 import "./EmployeListingPage.scss"
@@ -51,21 +52,23 @@ const EmployeListingPage: FC = () => {
   const columns = (): ColumnDef<employeModel,string>[] => {
     const columns: ColumnDef<employeModel,string>[] = [] 
     const keysForColumns = [
-      "firstName",
-      "lastName",
-      "birthday",
-      "city",
-      "street",
-      "departmentWork",
-      "state",
-      "zipcode",
+      "FirstName",
+      "LastName",
+      "Birthday",
+      "City",
+      "Street",
+      "Department Work",
+      "State",
+      "Zipcode",
     ];
     for(let i = 0; i < keysForColumns.length; i++ ) {
       const columnName = keysForColumns[i]
-  
+      const columnRef = columnName.replace(' ', '').replace(/^.{1}/g, columnName[0].toLowerCase())
+
       columns.push(
-        columnHelper.accessor(columnName as keyof employeModel, {
+        columnHelper.accessor(columnRef as keyof employeModel, {
         id: columnName,
+        header: columnName,
         cell: (info) => info.getValue(),
         footer: (info) => info.column.id,
       })
@@ -73,7 +76,6 @@ const EmployeListingPage: FC = () => {
     }
     return columns
   };
-
 
   const table = useReactTable({
     data,
@@ -88,9 +90,10 @@ const EmployeListingPage: FC = () => {
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onGlobalFilterChange: setGlobalFilter,
+    getSortedRowModel: getSortedRowModel(),
     globalFilterFn: fuzzyFilter,
   });
-
+  
   return (
     <div className="container__listing">
         <h1>Current Employees</h1>
@@ -102,7 +105,7 @@ const EmployeListingPage: FC = () => {
           />
         </div>
         <table>
-          <Thead headerGroups={table.getHeaderGroups()}/>
+          <Thead table={table}/>
           <RowTable rows={table.getRowModel().rows}/>
         </table>
         <Pagination table={table} />
