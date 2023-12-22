@@ -65,7 +65,7 @@ const StepOne: FC<Props> = ({ isValidate }) => {
                     <p>Please enter a valid start date.</p>
                 }
 
-                <button className="container__step__form--button" type="submit"> send </button>
+                <button className="container__step__form--button" type="submit"> Continue </button>
             </form>
        </div>
     )

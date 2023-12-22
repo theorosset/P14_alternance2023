@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setProfileEmploye, setNewEmploye } from "../../../../store/actions/user.action";
 import { DropDown } from "p14-dropdown-lib-alternance";
+import Modal from "../../../modal/modal";
 
 const StepTwo: FC = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const StepTwo: FC = () => {
   const form = useRef<HTMLFormElement>(null);
   const [invalidInput, setInvalidInput] = useState<string[]>([]);
   const [openedDropDown, setOpenedDropDown] = useState(0);
+  const [openModal, setOpenModal] = useState(false)
   const FieldsCityStreet = ["street", "city"];
 
   const handlerSelectDropDown = async (dropdownValue: any) => {
@@ -71,7 +73,7 @@ const StepTwo: FC = () => {
       
       dispatch(setProfileEmploye(employeData) as any);
       dispatch(setNewEmploye() as any);
-      navigate("/employe-listing");
+      setOpenModal(true)
     }
   }
 
@@ -128,6 +130,7 @@ const StepTwo: FC = () => {
 
         <button className="container__step__form--button" type="submit">send</button>
       </form>
+      <Modal content="Employe created !" isOpen={openModal} onClosed={() => navigate("/employe-listing")}/>
     </div>
   );
 };
