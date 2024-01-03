@@ -21,12 +21,12 @@ const StepTwo: FC = () => {
 
   const handlerSelectDropDown = async (dropdownValue: any) => {
     const { id, value } = dropdownValue;
-
-    if (id === "2" && value) {
-      await dispatch(setDepartmentEmploye(value) as any);
-    }
-    if (id === "1" && value) {
+    
+    if (id === 1 && value) {
       await dispatch(setStateEmploye(value) as any);
+    }
+    if (id === 2 && value) {
+      await dispatch(setDepartmentEmploye(value) as any);
     }
   };
 
@@ -106,7 +106,7 @@ const StepTwo: FC = () => {
         <DropDown
           id={1}
           options={dropDownData.state}
-          onSelectedValue={(value: any) => handlerSelectDropDown(value)}
+          onSelectedValue={(value: { id:number, value: string }) => handlerSelectDropDown(value)}
           idOfDropdownOpened={openedDropDown}
           onOpened={(id) => setOpenedDropDown(id)}
         />
@@ -121,7 +121,7 @@ const StepTwo: FC = () => {
         <DropDown
           id={2}
           options={dropDownData.department}
-          onSelectedValue={(value: any) => handlerSelectDropDown(value)}
+          onSelectedValue={(value: { id:number, value: string }) => handlerSelectDropDown(value)}
           idOfDropdownOpened={openedDropDown}
           onOpened={(id) => setOpenedDropDown(id)}
         />
