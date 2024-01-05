@@ -27,13 +27,15 @@ const Pagination: FC<Props> = ({ table }) => {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
             >
-                {'<'}
+                {' < Previous'}
             </button>
+            <p>{table.getState().pagination.pageIndex + 1}</p>
             <button
+             className="container__pagination--rightBtn"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
             >
-                {'>'}
+                {'Next >'}
             </button>
         </div>
     );

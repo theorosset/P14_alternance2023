@@ -4,8 +4,6 @@ export interface EmployeState {
   allEmploye: employeModel[]
 }
 
-
-
 const initialState: EmployeState = {
   employe: {
     firstName: '',
@@ -14,12 +12,13 @@ const initialState: EmployeState = {
     city: '',
     street: '',
     state: '',
+    startDate: '',
     zipcode: null,
     departmentWork: '',
   },
   allEmploye: []
-   
 };
+
 export const employeReducer = (state = initialState, action: any) => {
   switch (action.type) {
      

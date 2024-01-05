@@ -1,8 +1,15 @@
 .container__pagination {
     margin-top: 0.5rem;
+    display: flex;
 
     &--leftBtn {
         margin-left: 1rem;
         margin-right: 0.5rem;
+    }
+    &--rightBtn {
+        margin-left: 0.5rem;
+    };
+    & > p {
+        margin: 0;
     }
 }

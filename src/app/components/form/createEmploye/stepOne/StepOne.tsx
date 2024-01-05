@@ -4,6 +4,7 @@ import { formData } from "../../../../models/formDataModels"
 import Title from "../../titleForm/TitleForm"
 import { useDispatch } from "react-redux"
 import { setProfileEmploye } from "../../../../store/actions/user.action"
+import { Link } from "react-router-dom"
 interface Props {
     isValidate: Function
 }
@@ -67,6 +68,7 @@ const StepOne: FC<Props> = ({ isValidate }) => {
 
                 <button className="container__step__form--button" type="submit"> Continue </button>
             </form>
+            <Link to={"/employe-listing"}>View current employe</Link>
        </div>
     )
 }

@@ -5,7 +5,7 @@ import { formData } from "../../../../models/formDataModels";
 import dropDownData from "../../../../data/dropDownData.json";
 import { setDepartmentEmploye, setStateEmploye } from "../../../../store/actions/user.action";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setProfileEmploye, setNewEmploye } from "../../../../store/actions/user.action";
 import { DropDown } from "p14-dropdown-lib-alternance";
 import Modal from "../../../modal/modal";
@@ -130,6 +130,7 @@ const StepTwo: FC = () => {
 
         <button className="container__step__form--button" type="submit">send</button>
       </form>
+      <Link to={"/employe-listing"}>View current employe</Link>
       <Modal content="Employe created !" isOpen={openModal} onClosed={() => navigate("/employe-listing")}/>
     </div>
   );

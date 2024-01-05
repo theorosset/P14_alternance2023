@@ -5,6 +5,7 @@ export type employeModel = {
     city: string,
     street: string,
     state: string,
+    startDate: string,
     zipcode: number | null
     departmentWork: string
 }
@@ -13,6 +14,7 @@ export interface employeInformationModel {
     firstName: string,
     lastName: string,
     birthday: string,
+    startDate: string,
     departmentWork: string
 }
 export interface employeAdressModel {

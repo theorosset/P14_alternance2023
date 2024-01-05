@@ -19,7 +19,7 @@ import RowTable from "../../components/table/rowTable/RowTable";
 import "./EmployeListingPage.scss"
 import { RankingInfo, rankItem } from "@tanstack/match-sorter-utils";
 import SearchTable from "../../components/table/searchTable/SearchTable";
-
+import { Link } from "react-router-dom";
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -54,10 +54,11 @@ const EmployeListingPage: FC = () => {
     const keysForColumns = [
       "FirstName",
       "LastName",
+      "Start Date",
+      "Department Work",
       "Birthday",
       "City",
       "Street",
-      "Department Work",
       "State",
       "Zipcode",
     ];
@@ -110,6 +111,7 @@ const EmployeListingPage: FC = () => {
         </table>
         <Pagination table={table} />
       </div>
+      <Link to={"/"}> Home </Link>
     </div>
   );
 };
