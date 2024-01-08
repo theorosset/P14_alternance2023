@@ -32,7 +32,7 @@ declare module '@tanstack/table-core' {
 
 const EmployeListingPage: FC = () => {
   const user = useSelector((state: RootState) => state.employeReducer.allEmploye);
-  const [data, setData] = useState(user);
+  const [data] = useState(user);
   const [globalFilter, setGlobalFilter] = useState('')
   const columnHelper = createColumnHelper<employeModel>();
 
@@ -64,6 +64,7 @@ const EmployeListingPage: FC = () => {
     ];
     for(let i = 0; i < keysForColumns.length; i++ ) {
       const columnName = keysForColumns[i]
+      // Delete space of keys and replace first letter uppercase to lowerCase
       const columnRef = columnName.replace(' ', '').replace(/^.{1}/g, columnName[0].toLowerCase())
 
       columns.push(
