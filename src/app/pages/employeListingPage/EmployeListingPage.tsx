@@ -26,7 +26,7 @@ const EmployeListingPage: FC = () => {
   const [onSearchData] = useState(user);
   const columnHelper = createColumnHelper<employeModel>();
 
-  const fuzzyFilter = (searchValue: string) => {
+  const searchFilter = (searchValue: string) => {
     const searchLower = searchValue.toLowerCase();
     const rows = onSearchData 
   
@@ -91,7 +91,7 @@ const EmployeListingPage: FC = () => {
         <h1>Current Employees</h1>
       <div className="container__listing__table">
         <div className="container__listing__table--search">
-          <SearchTable inputEvent={(value) => fuzzyFilter(value)} />
+          <SearchTable inputEvent={(value) => searchFilter(value)} />
         </div>
         <table>
           <Thead table={table}/>
