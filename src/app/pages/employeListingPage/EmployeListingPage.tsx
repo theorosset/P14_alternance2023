@@ -29,11 +29,13 @@ const EmployeListingPage: FC = () => {
   const searchFilter = (searchValue: string) => {
     const searchLower = searchValue.toLowerCase();
     const rows = onSearchData 
-  
-    const filteredEmployees = rows.filter((employee: employeModel) => {
-     
+    
+    //filter data for get rows matching with searchValue
+    const filteredRows = rows.filter((employee: employeModel) => {
+      
       for (const key in employee) {
         if (employee.hasOwnProperty(key)) { 
+          // check if value include value in search 
           const value = employee[key as keyof employeModel];
           if (typeof value === 'string' && value.toLowerCase().includes(searchLower)) {
             return true;
@@ -43,7 +45,7 @@ const EmployeListingPage: FC = () => {
       return false;
     });
   
-    return setData(filteredEmployees);
+    return setData(filteredRows);
   };
   
 
