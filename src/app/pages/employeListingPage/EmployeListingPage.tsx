@@ -11,43 +11,41 @@ import {
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
-  FilterFn,
   getFilteredRowModel,
   getSortedRowModel
 } from "@tanstack/react-table";
 import RowTable from "../../components/table/rowTable/RowTable";
 import "./EmployeListingPage.scss"
-import { RankingInfo, rankItem } from "@tanstack/match-sorter-utils";
 import SearchTable from "../../components/table/searchTable/SearchTable";
 import { Link } from "react-router-dom";
 
-declare module '@tanstack/table-core' {
-  interface FilterFns {
-    fuzzy: FilterFn<unknown>
-  }
-  interface FilterMeta {
-    itemRank: RankingInfo
-  }
-}
 
 const EmployeListingPage: FC = () => {
   const user = useSelector((state: RootState) => state.employeReducer.allEmploye);
-  const [data] = useState(user);
-  const [globalFilter, setGlobalFilter] = useState('')
+  const [data, setData] = useState(user);
+  const [onSearchData] = useState(user);
   const columnHelper = createColumnHelper<employeModel>();
 
-  const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
-    // Rank the item
-    const itemRank = rankItem(row.getValue(columnId), value)
-    
-    // Store the itemRank info
-    addMeta({
-      itemRank,
-    })
+  const fuzzyFilter = (searchValue: string) => {
+    const searchLower = searchValue.toLowerCase();
+    const rows = onSearchData 
   
-    // Return if the item should be filtered in/out
-    return itemRank.passed
-  }
+    const filteredEmployees = rows.filter((employee: employeModel) => {
+     
+      for (const key in employee) {
+        if (employee.hasOwnProperty(key)) { 
+          const value = employee[key as keyof employeModel];
+          if (typeof value === 'string' && value.toLowerCase().includes(searchLower)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    });
+  
+    return setData(filteredEmployees);
+  };
+  
 
   const columns = (): ColumnDef<employeModel,string>[] => {
     const columns: ColumnDef<employeModel,string>[] = [] 
@@ -82,18 +80,10 @@ const EmployeListingPage: FC = () => {
   const table = useReactTable({
     data,
     columns: columns(),
-    filterFns: {
-      fuzzy: fuzzyFilter,
-    },
-    state: {
-      globalFilter,
-    },
     getFilteredRowModel: getFilteredRowModel(),
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onGlobalFilterChange: setGlobalFilter,
     getSortedRowModel: getSortedRowModel(),
-    globalFilterFn: fuzzyFilter,
   });
   
   return (
@@ -101,10 +91,7 @@ const EmployeListingPage: FC = () => {
         <h1>Current Employees</h1>
       <div className="container__listing__table">
         <div className="container__listing__table--search">
-          <SearchTable 
-            value={globalFilter ?? ''} 
-            inputEvent={(value) => setGlobalFilter(value)}
-          />
+          <SearchTable inputEvent={(value) => fuzzyFilter(value)} />
         </div>
         <table>
           <Thead table={table}/>
