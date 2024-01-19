@@ -11,7 +11,6 @@ import {
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
-  getFilteredRowModel,
   getSortedRowModel
 } from "@tanstack/react-table";
 import RowTable from "../../components/table/rowTable/RowTable";
@@ -81,7 +80,6 @@ const EmployeListingPage: FC = () => {
   const table = useReactTable({
     data,
     columns: columns(),
-    getFilteredRowModel: getFilteredRowModel(),
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),

@@ -1,23 +1,24 @@
-import { FC, useRef, useState } from "react"
+import { FC, useCallback, useEffect, useRef, useState } from "react"
 import { formValidator } from "../../../../utils/formValidator"
 import { formData } from "../../../../models/formDataModels"
 import Title from "../../titleForm/TitleForm"
 import { useDispatch } from "react-redux"
 import { setProfileEmploye } from "../../../../store/actions/user.action"
-import { Link } from "react-router-dom"
-interface Props {
-    isValidate: Function
-}
 
-const StepOne: FC<Props> = ({ isValidate }) => {
+interface Props {
+    isSubmit: boolean;
+    isValidate: (formValidation: {step: string, isValid: boolean}) => void
+};
+
+const EmployeStep: FC<Props> = ({isSubmit, isValidate}) => {
     const dispatch = useDispatch()
     const form = useRef<HTMLFormElement>(null)
     const [invalidInput, setInvalidInput] = useState<string[]>([])
     
-    function handleSubmit(event: any): void {
+    const handleSubmit = useCallback((event: any) => {
         event.preventDefault()
         const { current } = form
-
+        const validation = { step: 'employe', isValid: false }
         if(current) {
             const formValue = current as unknown as HTMLInputElement[]
             
@@ -31,17 +32,28 @@ const StepOne: FC<Props> = ({ isValidate }) => {
             const checkInputValidation = formValidator(employeData)
 
             if(checkInputValidation.length) {
+                validation.isValid = false 
+                isValidate(validation)
                 return setInvalidInput(checkInputValidation)
              }
-             isValidate()
+             validation.isValid = true 
+             setInvalidInput([])
              dispatch(setProfileEmploye(employeData) as any)
+             isValidate(validation)
         }
+    }, [dispatch, isValidate])
 
-    }
+    useEffect(() => {
+        if (isSubmit) {
+            handleSubmit(new Event('submit'));
+        }
+    }, [isSubmit, handleSubmit]);
+
+    
     return (
-        <div className="container__step">
-            <Title text="Step 1/2" />
-            <form ref={form} onSubmit={handleSubmit} className="container__step__form">
+        <div className="container">
+            <Title text="Create employe" />
+            <form  id="1" ref={form} className="container__step__form">
                 <label htmlFor="firstName">First Name : </label>
                 <input type="text" id="firstName" />
                 {  invalidInput.includes('firstName') &&
@@ -65,12 +77,9 @@ const StepOne: FC<Props> = ({ isValidate }) => {
                 {  invalidInput.includes('startDate') &&
                     <p>Please enter a valid start date.</p>
                 }
-
-                <button className="container__step__form--button" type="submit"> Continue </button>
             </form>
-            <Link to={"/employe-listing"}>View current employe</Link>
        </div>
     )
 }
 
-export default StepOne
+export default EmployeStep
