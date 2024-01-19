@@ -140,7 +140,7 @@ const AdressStep: FC<Props> = ({ isSubmit, preventFormValidation, isValidate }) 
             handlerSelectDropDown(value)
           }
           idOfDropdownOpened={openedDropDown}
-          onOpened={(id) => setOpenedDropDown(id)}
+          onOpened={(id) => setTimeout(() => setOpenedDropDown(id), 0)}
         />
         {invalidInput.includes("1") && <p>Please select one in list.</p>}
 
@@ -159,7 +159,7 @@ const AdressStep: FC<Props> = ({ isSubmit, preventFormValidation, isValidate }) 
             handlerSelectDropDown(value)
           }
           idOfDropdownOpened={openedDropDown}
-          onOpened={(id) => setOpenedDropDown(id)}
+          onOpened={(id) => setTimeout(() => setOpenedDropDown(id), 0)}
         />
 
         {invalidInput.includes("2") && <p>Please select one in list.</p>}
