@@ -84,12 +84,12 @@ const AdressStep: FC<Props> = ({ isSubmit, preventFormValidation, isValidate }) 
 
           return setInvalidInput(checkInputValidation);
         }
+        validation.isValid = true
+        setInvalidInput([])
+        dispatch(setProfileEmploye(employeData) as any);
+        isValidate(validation)
         if (preventFormValidation) {
-          validation.isValid = true
-          setInvalidInput([])
-          dispatch(setProfileEmploye(employeData) as any);
           dispatch(setNewEmploye() as any);
-          isValidate(validation)
           setOpenModal(true);
         }
       }

@@ -5,25 +5,30 @@ import "./CreateEmployePage.scss"
 import { Link } from "react-router-dom";
 
 const CreateEmployePage: FC = () => {
-    const [isSubmit, setIsSubmit] = useState(false)
+    const [isEmployeSubmit, setIsEmployeSubmit] = useState(false)
+    const [isAdressSubmit, setIsAdressSubmit] = useState(false)
     const [employeStepAreValid, setEmployeStepAreValid] = useState(false)
 
-   const verificationValidationForm = (formValidation: {step: string, isValid: boolean }) => {
+    const verificationValidationForm = (formValidation: {step: string, isValid: boolean }) => {
         if(formValidation.step === 'employe' && formValidation.isValid === true) {
             setEmployeStepAreValid(true)
+        } else if (formValidation.step === 'employe' && formValidation.isValid === false) {
+            setEmployeStepAreValid(false)
         }
-            setIsSubmit(false)
+        setIsEmployeSubmit(false)
+        setIsAdressSubmit(false)
     }
 
     const externalSubmit = () => {
-        setIsSubmit(true)
+        setIsEmployeSubmit(true)
+        setTimeout(() => setIsAdressSubmit(true), 1)
     }
 
     return (
         <div className="container__home">
             <div className="container__step">
-                <EmployeStep  isSubmit={isSubmit} isValidate={(formValidation) => verificationValidationForm(formValidation)}/>
-                <AdressStep   isSubmit={isSubmit} preventFormValidation={employeStepAreValid} 
+                <EmployeStep  isSubmit={isEmployeSubmit} isValidate={(formValidation) => verificationValidationForm(formValidation)}/>
+                <AdressStep   isSubmit={isAdressSubmit} preventFormValidation={employeStepAreValid} 
                               isValidate={(formValidation) => verificationValidationForm(formValidation)}
                               />
                 <button className="container__home--button" type="submit" onClick={externalSubmit}>send</button>
