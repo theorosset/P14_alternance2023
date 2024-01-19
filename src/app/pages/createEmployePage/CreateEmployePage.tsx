@@ -9,7 +9,7 @@ const CreateEmployePage: FC = () => {
     const [employeStepAreValid, setEmployeStepAreValid] = useState(false)
 
    const verificationValidationForm = (formValidation: {step: string, isValid: boolean }) => {
-        if(formValidation.step === 'employe') {
+        if(formValidation.step === 'employe' && formValidation.isValid === true) {
             setEmployeStepAreValid(true)
         }
             setIsSubmit(false)
