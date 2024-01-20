@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import EmployeStep from "../../components/form/createEmploye/employeStep/EmployeStep";
 import AdressStep from "../../components/form/createEmploye/adressStep/AdressStep";
 import "./CreateEmployePage.scss"
@@ -9,6 +9,13 @@ const CreateEmployePage: FC = () => {
     const [isAdressSubmit, setIsAdressSubmit] = useState(false)
     const [employeStepAreValid, setEmployeStepAreValid] = useState(false)
 
+
+    useEffect(() => {
+        if(isEmployeSubmit) {
+            setIsAdressSubmit(true)
+        }
+    }, [isEmployeSubmit])
+    
     const verificationValidationForm = (formValidation: {step: string, isValid: boolean }) => {
         if(formValidation.step === 'employe' && formValidation.isValid === true) {
             setEmployeStepAreValid(true)
@@ -21,7 +28,6 @@ const CreateEmployePage: FC = () => {
 
     const externalSubmit = () => {
         setIsEmployeSubmit(true)
-        setTimeout(() => setIsAdressSubmit(true), 1)
     }
 
     return (
